@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-
+import math
 
 #Simple generator function to generate traces for training
 #For now, assume that number of discrete states and system "memory" are known
@@ -54,28 +54,30 @@ def generate_traces_unconstrained(memory, length, input_size, batch_size, num_st
         int_input_list = []
         for b in xrange(batch_size):
             #Set scale of inputs
-            label_size = int(input_size/memory) + 1
+            label_size = int((input_size-1)/memory) + 1
             # define random transition matrix of proper form
-            trajectory = np.zeros((label_size,T), dtype='int')
+            trajectory = np.zeros((length,label_size), dtype='int')
             v_list = []
             v_list.append(np.random.randint(0,label_size))
-            trajectory[v_list[0],0] = 1
+            trajectory[0,v_list[0]] = 1
 
-            for s in xrange(1,T):
+            for s in xrange(1,length):
                 v_new = np.random.randint(0,label_size)
                 v_list.append(v_new)
-                trajectory[v_new,s] = 1
+                trajectory[s,v_new] = 1
 
             F_series = np.convolve(kernel,np.array(v_list),mode='same')
-            full_input = np.zeros((input_size,T))
-            for f in xrange(T):
-                full_input[int(F_series[f]),f] = 1
+            full_input = np.zeros((length,input_size))
+            for f in xrange(length):
+                full_input[f,int(F_series[f])] = 1
 
             input_list.append(np.ndarray.tolist(full_input))
             label_list.append(np.ndarray.tolist(trajectory))
             int_label_list.append(v_list)
             int_input_list.append(F_series)
-        yield(input_list, label_list, int_label_list, int_input_list)
+
+        seq_lengths = [length]*batch_size
+        yield(input_list, label_list, seq_lengths, int_label_list, int_input_list)
 
 
 if __name__ == "__main__":
@@ -83,18 +85,18 @@ if __name__ == "__main__":
     # num states
     K = 3
     # memory
-    w = 5
+    w = 1
     # Fix trace length for now
     T = 50
     # Input magnitude
-    F = 500
+    F = 2
     # Number of traces per batch
     batch_size = 1
 
     batches = generate_traces_unconstrained(w,T,F,batch_size,1)
 
     for batch in batches:
-        input_list, label_list, label_ints, input_ints = batch
+        input_list, label_list, seq_lengths, label_ints, input_ints = batch
         plt.plot(np.array(input_ints[0]))
         plt.plot(np.array(label_ints[0]))
         plt.show()

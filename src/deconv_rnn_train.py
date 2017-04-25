@@ -10,15 +10,15 @@ import sys
 import datetime
 import time
 from time import gmtime, strftime
-from generate_traces import generate_traces_unconstrained
-from deconv_rnn import DECONV_RNN
+from utilities.generate_traces import generate_traces_unconstrained
+from models.deconv_rnn import DECONV_RNN
 import tensorflow as tf
 
 #DEFAULT Training Parameters
 #--------------------------------------------------------------------------------------------
 #Hyperparameters
 batch_size =  25
-num_training_steps = 2000
+num_training_steps = 4000
 record_every = 25
 evaluate_every = 25
 test_type = "check"
@@ -26,14 +26,14 @@ test_type = "check"
 #Architecture Parameters
 num_layers = 4
 num_neurons = 100
-dropout_keep_prob = .8
+dropout_keep_prob = .9
 
 #Trace Parameters
 trace_length = 500
 uniform_trace_lengths = 0
 memory = 5
-fluo_scale = 501
-
+fluo_scale = 51
+init_scale = int((fluo_scale-1)/memory) + 1
 #Paths
 write_dir = os.path.join( 'output/')
 
@@ -74,7 +74,7 @@ with tf.Graph().as_default():
             num_neurons = num_neurons,
             num_layers = num_layers,
             num_input_classes = fluo_scale,
-            num_output_classes= int(fluo_scale/memory)
+            num_output_classes= init_scale
             )
 
     # ============================================================================================
@@ -116,7 +116,7 @@ with tf.Graph().as_default():
     grad_summaries_merged = tf.summary.merge(grad_summaries)
     # Summaries for cross_entropy and accuracy
     loss_summary = tf.summary.scalar("cross_entropy", rnn.loss)
-    acc_summary = tf.summary.scalar("accuracy", rnn.accuracy)
+    #acc_summary = tf.summary.scalar("accuracy", accuracy)
 
     # Train Summaries
     train_summary_op = tf.summary.merge_all()
@@ -128,13 +128,14 @@ with tf.Graph().as_default():
     dev_summary_dir = os.path.join(out_dir, "summaries", "dev")
     dev_summary_writer = tf.summary.FileWriter(dev_summary_dir, sess.graph)
 
-    def train_step(x_batch, y_batch, int_labels):
+    def train_step(x_batch, y_batch, seq_lengths, full_labels):
         """
         A single training step
         """
         feed_dict = {
             rnn.input_x: x_batch,
             rnn.input_y: y_batch,
+            rnn.seq_lengths: seq_lengths,
             rnn.dropout: dropout_keep_prob
         }
         _, step, summaries, cross_entropy, class_scores = sess.run(
@@ -144,19 +145,22 @@ with tf.Graph().as_default():
             #print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
             train_summary_writer.add_summary(summaries, step)
 
-    def dev_step(x_batch, y_batch, int_labels, writer=dev_summary_writer):
+    def dev_step(x_batch, y_batch, seq_lengths, full_labels, writer=dev_summary_writer):
 
         #Evaluates model on a dev set
 
         feed_dict = {
             rnn.input_x: x_batch,
             rnn.input_y: y_batch,
+            rnn.seq_lengths : seq_lengths,
             rnn.dropout: 1.0
         }
 
-        step, summaries, cross_entropy, class_scores, accuracy, correlation_vec = sess.run(
-            [global_step, dev_summary_op, rnn.loss, rnn.probs_flat, rnn.accuracy],
+        step, summaries, cross_entropy, class_scores = sess.run(
+            [global_step, dev_summary_op, rnn.loss, rnn.probs_flat],
             feed_dict)
+
+        accuracy = np.mean(1.0 - np.sum(np.abs(np.array(class_scores) - np.reshape(np.array(full_labels),(-1,init_scale))), axis=1) / 2.0)
 
         if writer:
             writer.add_summary(summaries, step)
@@ -171,22 +175,20 @@ with tf.Graph().as_default():
         dev_csv = open(os.path.join(dev_summary_dir, "csv", "acc_loss.csv"), "a")
         write = csv.writer(dev_csv)
         row = [time_str, current_step, num_training_steps, cross_entropy, accuracy]
-        for corr in correlation_vec:
-            row.append(corr)
         write.writerow(row)
         dev_csv.close()
 
         if current_step % evaluate_every * 50 == 0:
             with open(os.path.join(dev_summary_dir, "csv", "score_details.csv"),"a") as dev_score_csv:
                 write = csv.writer(dev_score_csv)
-                for i in xrange(len(y_batch[0])):
+                for i in xrange(len(full_labels[0])):
                     scores = class_scores[i,:]
-                    answers =  y_batch[0][i]
+                    answers =  full_labels[0][i]
                     row = [current_step]
-                    for i in xrange(int(fluo_scale/memory)):
+                    for i in xrange(init_scale):
                         cell = scores[i]
                         row.append(cell)
-                    for j in xrange(int(fluo_scale/memory)):
+                    for j in xrange(init_scale):
                         cell = answers[j]
                         row.append(cell)
                     write.writerow(row)
@@ -206,12 +208,12 @@ with tf.Graph().as_default():
     abs_start = time.time()
     start = time.time()
     for batch in training_batches:
-        x_inputs, y_labels, int_labels = batch
-        train_step(x_inputs, y_labels)
+        x_inputs, y_labels, seq_lengths, int_labels, _ = batch
+        train_step(x_inputs, int_labels, seq_lengths, y_labels)
 
         if current_step % evaluate_every == 0:
-            x_inputs, y_labels, int_lables = next(testing_batches)
-            dev_step(x_inputs, y_labels, int_labels, writer=dev_summary_writer)
+            x_inputs, y_labels, seq_lengths, int_labels, int_inputs = next(testing_batches)
+            dev_step(x_inputs, int_labels, seq_lengths, y_labels, writer=dev_summary_writer)
 
             print("")
             path = saver.save(sess, checkpoint_prefix, global_step=current_step)

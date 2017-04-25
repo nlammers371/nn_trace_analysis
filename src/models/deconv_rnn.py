@@ -10,9 +10,11 @@ class DECONV_RNN(object):
         # Define Placeholders
         with tf.name_scope("inputs"):
             self.input_x = tf.placeholder(tf.float32, [None, max_length, num_input_classes], name="input_x")
-            self.input_y = tf.placeholder(tf.float32, [None, max_length, num_output_classes], name="input_y")
-            self.dropout = tf.constant(tf.float32, None, name = "dropout")
-
+            self.input_y = tf.placeholder(tf.int32, [None, max_length], name="input_y")
+            #self.full_labels = tf.placeholder(tf.float32, [None, max_length, num_output_classes], name="input_y_full")
+            self.seq_lengths = tf.placeholder(tf.int32, None, name = "dropout")
+            self.dropout = tf.placeholder(tf.float32, None, name = "dropout")
+            total_length = tf.reduce_sum(self.seq_lengths)
         cell = tf.contrib.rnn.BasicLSTMCell(num_units=num_neurons, state_is_tuple=True)  # Or LSTMCell(num_neurons)
         cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=self.dropout)
         cell = tf.contrib.rnn.MultiRNNCell([cell] * num_layers)
@@ -22,6 +24,7 @@ class DECONV_RNN(object):
             cell_fw=cell,
             cell_bw = cell,
             dtype=tf.float32,
+            sequence_length=self.seq_lengths,
             inputs=self.input_x)
 
         outputs_fw, outputs_bw = outputs
@@ -52,11 +55,10 @@ class DECONV_RNN(object):
             logits_full = tf.reshape(logits_flat, [-1,max_length,num_output_classes], name="logits_full")
 
         with tf.name_scope("loss"):
-            self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.input_y, logits=logits_full), name = "cross")
+            self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels=self.input_y, logits=logits_full), name = "cross")
 
         with tf.name_scope("performance"):
 
             self.prediction = tf.reshape(self.probs_flat, [-1, max_length, num_output_classes])
-            y_flat = tf.reshape(self.input_y, [-1, num_output_classes])
-            self.accuracy = tf.subtract(tf.constant(1,dtype=tf.float32), tf.divide(tf.reduce_sum(tf.abs(tf.subtract(self.prediction,self.input_y))),2.0 * self.total_length), name="acc_per_timestep")
+            #self.accuracy = tf.subtract(1.0, tf.divide(self.prediction,self.full_labels))),2.0 * tf.cast(total_length,tf.float32), name="acc_per_timestep"))
 
