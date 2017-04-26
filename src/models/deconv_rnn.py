@@ -60,5 +60,5 @@ class DECONV_RNN(object):
         with tf.name_scope("performance"):
 
             self.prediction = tf.reshape(self.probs_flat, [-1, max_length, num_output_classes])
-            #self.accuracy = tf.subtract(1.0, tf.divide(self.prediction,self.full_labels))),2.0 * tf.cast(total_length,tf.float32), name="acc_per_timestep"))
+            self.accuracy = tf.reduce_mean(tf.square(tf.cast((tf.argmax(self.prediction,axis=2) - self.input_y),tf.float32) / tf.cast(num_output_classes, tf.float32)))
 

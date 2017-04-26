@@ -44,37 +44,52 @@ def generate_traces_prob_mat(num_states, memory, length, input_size, batch_size)
 #This function defines the hard problem--an arbitrary number of emission states of an arbitrary magnitude
 #Stay in discrete space for now.
 
-def generate_traces_unconstrained(memory, length, input_size, batch_size, num_steps):
+def generate_traces_unconstrained(memory, length, input_size, batch_size, num_steps, noise_scale =.05, alpha=1.0):
     #define convolution kernel
-    kernel = np.ones((1,memory))[0]
+    if alpha > 0:
+        alpha_vec = [(float(i + 1) / alpha + (float(i) / alpha)) / 2.0 * (i < alpha) + 1 * (i >= alpha) for i in xrange(memory)]
+        #alpha_vec = np.array(alpha_vec[::-1])
+    else:
+        alpha_vec = np.array([1]*memory)
+
+    kernel = np.ones((1,memory))[0]*alpha_vec
+    print(kernel)
     for step in xrange(num_steps):
         input_list = []
         label_list = []
         int_label_list = []
         int_input_list = []
         for b in xrange(batch_size):
-            #Set scale of inputs
-            label_size = int((input_size-1)/memory) + 1
+            # Set scale of inputs
+            label_size = int((input_size - 1) / memory) + 1
+            v_size = np.random.randint(2,label_size)
+            v_choices = np.random.randint(0,label_size,size=v_size)
             # define random transition matrix of proper form
             trajectory = np.zeros((length,label_size), dtype='int')
             v_list = []
-            v_list.append(np.random.randint(0,label_size))
+            v_list.append(np.random.choice(v_choices))
             trajectory[0,v_list[0]] = 1
-
+            #Generate promoter trajectory
             for s in xrange(1,length):
-                v_new = np.random.randint(0,label_size)
+                v_new = np.random.choice(v_choices)
                 v_list.append(v_new)
                 trajectory[s,v_new] = 1
-
-            F_series = np.convolve(kernel,np.array(v_list),mode='same')
-            full_input = np.zeros((length,input_size))
+            v_list = np.array(v_list)
+            v_list.astype('float')
+            #Convolve with kernel to generate compound signal
+            F_series = np.floor(np.convolve(kernel,np.array(v_list),mode='full'))
+            F_series = F_series[0:length]
+            #Apply noise
+            noise_vec = np.random.randn(length)*int(noise_scale*input_size)
+            F_noised = F_series + noise_vec
+            full_input = np.zeros((length, input_size))
             for f in xrange(length):
-                full_input[f,int(F_series[f])] = 1
+                full_input[f,max(0,min(input_size-1, int(F_noised[f])))] = 1
 
             input_list.append(np.ndarray.tolist(full_input))
             label_list.append(np.ndarray.tolist(trajectory))
-            int_label_list.append(v_list)
-            int_input_list.append(F_series)
+            int_label_list.append(v_list.tolist())
+            int_input_list.append(F_series.tolist())
 
         seq_lengths = [length]*batch_size
         yield(input_list, label_list, seq_lengths, int_label_list, int_input_list)
@@ -82,21 +97,21 @@ def generate_traces_unconstrained(memory, length, input_size, batch_size, num_st
 
 if __name__ == "__main__":
 
-    # num states
-    K = 3
     # memory
-    w = 1
+    w = 10
     # Fix trace length for now
-    T = 50
+    T = 100
     # Input magnitude
-    F = 2
+    F = 201
     # Number of traces per batch
     batch_size = 1
 
-    batches = generate_traces_unconstrained(w,T,F,batch_size,1)
+    batches = generate_traces_unconstrained(w,T,F,batch_size,1,noise_scale =.5, alpha=10.0)
 
     for batch in batches:
         input_list, label_list, seq_lengths, label_ints, input_ints = batch
+        print(input_ints)
+        print(label_ints)
         plt.plot(np.array(input_ints[0]))
         plt.plot(np.array(label_ints[0]))
         plt.show()

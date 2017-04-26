@@ -156,11 +156,10 @@ with tf.Graph().as_default():
             rnn.dropout: 1.0
         }
 
-        step, summaries, cross_entropy, class_scores = sess.run(
-            [global_step, dev_summary_op, rnn.loss, rnn.probs_flat],
+        step, summaries, cross_entropy, class_scores, accuracy = sess.run(
+            [global_step, dev_summary_op, rnn.loss, rnn.probs_flat, rnn.accuracy],
             feed_dict)
 
-        accuracy = np.mean(1.0 - np.sum(np.abs(np.array(class_scores) - np.reshape(np.array(full_labels),(-1,init_scale))), axis=1) / 2.0)
 
         if writer:
             writer.add_summary(summaries, step)
