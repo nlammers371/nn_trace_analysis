@@ -53,7 +53,7 @@ def generate_traces_unconstrained(memory, length, input_size, batch_size, num_st
         alpha_vec = np.array([1]*memory)
 
     kernel = np.ones((1,memory))[0]*alpha_vec
-    print(kernel)
+
     for step in xrange(num_steps):
         input_list = []
         label_list = []
@@ -95,23 +95,107 @@ def generate_traces_unconstrained(memory, length, input_size, batch_size, num_st
         yield(input_list, label_list, seq_lengths, int_label_list, int_input_list)
 
 
+def generate_traces_gillespie(memory, length, input_size, batch_size, num_steps, switch_low=4, switch_high = 12, noise_scale =.025, alpha=1.0):
+    #define convolution kernel
+    if alpha > 0:
+        alpha_vec = [(float(i + 1) / alpha + (float(i) / alpha)) / 2.0 * (i < alpha) + 1 * (i >= alpha) for i in xrange(memory)]
+
+        #alpha_vec = np.array(alpha_vec[::-1])
+    else:
+        alpha_vec = np.array([1.0]*memory)
+    kernel = np.ones(memory)*alpha_vec
+
+    for step in xrange(num_steps):
+        input_list = []
+        label_list = []
+        int_label_list = []
+        int_input_list = []
+
+        # Set scale of inputs
+        label_size = int((input_size - 1) / memory) + 1
+        for b in xrange(batch_size):
+            #Determine number of states for trace
+            v_size = np.random.randint(2,int(label_size/2))
+            v_choices = np.random.randint(0,label_size,size=v_size)
+            #time scale of switching
+            tau = float(np.random.randint(switch_low,switch_high))
+
+            trajectory = np.zeros((length,label_size), dtype='int')
+            v_state_list = []
+
+            transitions = []
+            #Generate promoter trajectory
+            T_float = 0.0
+            while T_float < length:
+                transitions.append(T_float)
+                #time step
+                r = np.random.random()
+                t = tau * math.log(1.0 / r)
+                T_float += max(t,1.0)
+
+            transitions = transitions[1:]
+            v_new = np.random.choice(v_choices)
+            tr_id = 0
+            tr = transitions[tr_id]
+            for s in xrange(length+1):
+                if s > tr:
+                    v_new = np.random.choice(v_choices)
+                    tr_id += 1
+                    if tr_id < len(transitions):
+                        tr = transitions[tr_id]
+                # next state
+                v_state_list.append(v_new)
+                if s > length -1:
+                    break
+                trajectory[s, v_new] = 1
+
+            v_fluo_list = np.array(v_state_list)
+            v_fluo_list = v_fluo_list.astype('float')
+
+            for tr in transitions:
+                v_fluo_list[int(tr)] = (tr-math.floor(tr))*v_fluo_list[int(tr)] + (-tr+math.ceil(tr))*v_fluo_list[1+int(tr)]
+
+            v_state_list = v_state_list[:-1]
+            v_fluo_list = v_fluo_list[:-1]
+
+            #Convolve with kernel to generate compound signal
+            F_series = np.floor(np.convolve(kernel,np.array(v_fluo_list),mode='full'))
+            F_series = F_series[0:length]
+            #Apply noise
+            noise_vec = np.random.randn(length)*noise_scale*float(input_size)
+
+            F_noised = F_series + noise_vec
+            full_input = np.zeros((length, input_size),dtype='float')
+            for f in xrange(length):
+                full_input[f,max(0,min(input_size-1, int(F_noised[f])))] = 1
+
+            input_list.append(np.ndarray.tolist(full_input))
+            label_list.append(np.ndarray.tolist(trajectory))
+            int_label_list.append(v_state_list)
+            int_input_list.append(F_noised.tolist())
+
+        seq_lengths = [length]*batch_size
+        yield(input_list, label_list, seq_lengths, int_label_list, int_input_list)
+
+
 if __name__ == "__main__":
 
     # memory
-    w = 10
+    w = 20
     # Fix trace length for now
-    T = 100
+    T = 120
     # Input magnitude
     F = 201
     # Number of traces per batch
     batch_size = 1
 
-    batches = generate_traces_unconstrained(w,T,F,batch_size,1,noise_scale =.5, alpha=10.0)
+    batches = generate_traces_gillespie(w,T,F,batch_size,1,noise_scale =.025, alpha=1.0)
 
     for batch in batches:
-        input_list, label_list, seq_lengths, label_ints, input_ints = batch
-        print(input_ints)
-        print(label_ints)
-        plt.plot(np.array(input_ints[0]))
-        plt.plot(np.array(label_ints[0]))
+        input_list, label_list, seq_lengths, label_ints, input_ints, fluo_label_list = batch
+        #print(input_ints)
+        print(fluo_label_list)
+        #plt.plot(np.array(input_ints[0]))
+        #plt.plot(np.array(label_ints[0]))
+        #plt.plot(np.array(fluo_label_list[0]))
         plt.show()
