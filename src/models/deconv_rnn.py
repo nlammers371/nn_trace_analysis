@@ -13,7 +13,7 @@ class DECONV_RNN(object):
             self.input_x = tf.placeholder(tf.float32, [None, max_length, num_input_classes], name="input_x")
             self.input_y = tf.placeholder(tf.float32, [None, max_length], name="input_y")
             #self.full_labels = tf.placeholder(tf.float32, [None, max_length, num_output_classes], name="input_y_full")
-            self.seq_lengths = tf.placeholder(tf.int32, None, name = "dropout")
+            self.seq_lengths = tf.placeholder(tf.int32, None, name = "seq_lengths")
             self.dropout = tf.placeholder(tf.float32, None, name = "dropout")
 
             if deprecated:

@@ -95,7 +95,7 @@ def generate_traces_unconstrained(memory, length, input_size, batch_size, num_st
         yield(input_list, label_list, seq_lengths, int_label_list, int_input_list)
 
 
-def generate_traces_gillespie(memory, length, input_size, batch_size, num_steps, switch_low=4, noise_scale =.025, alpha=1.0):
+def generate_traces_gillespie(memory, length, input_size, batch_size, num_steps, switch_low=4, switch_high=12, noise_scale =.025, alpha=1.0):
     #define convolution kernel
     if alpha > 0:
         alpha_vec = [(float(i + 1) / alpha + (float(i) / alpha)) / 2.0 * (i < alpha) * (i + 1 <= alpha)
