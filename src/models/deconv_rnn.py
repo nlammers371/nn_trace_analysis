@@ -99,7 +99,7 @@ class DECONV_RNN(object):
         with tf.name_scope("performance"):
 
             self.prediction = tf.reshape(self.probs_flat, [-1, tf.cast(max_length,tf.int32), tf.cast(num_output_classes,tf.int32)])
-            self.accuracy = tf.reduce_mean(1.0 - tf.abs(tf.cast(tf.argmax(self.prediction,axis=2),tf.float32) - self.input_y) / tf.cast(num_output_classes-1, tf.float32))
+            self.accuracy = tf.reduce_mean(1.0 - tf.abs(self.prediction - self.input_y) / 2.0, tf.float32)
             #self.accuracy_cat = 1.0 - tf.reduce_mean(tf.equal(tf.cast(tf.argmax(self.prediction,axis=2),tf.float32),self.input_y))
 
             probs_vec = tf.cast(tf.argmax(self.probs_flat,axis=1), tf.float32)

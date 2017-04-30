@@ -10,7 +10,7 @@ import sys
 import datetime
 import time
 from time import gmtime, strftime
-from utilities.generate_traces import generate_traces_gillespie
+from utilities.generate_traces import generate_traces_gill_r_mat
 from models.deconv_rnn import DECONV_RNN
 import tensorflow as tf
 import math
@@ -21,7 +21,7 @@ import math
 batch_size =  10
 num_training_steps = 25000
 record_every = 25
-evaluate_every = 50
+evaluate_every = 100
 test_type = "train"
 deprecated = 0
 
@@ -30,12 +30,12 @@ deprecated = 0
 #Trace Parameters
 trace_length = 500
 uniform_trace_lengths = 1
-memory = 20
-switch_low = 3
-switch_high = 12
+memory = 40
+switch_low = 2
+#switch_high = 12
 noise_scale = .025
 alpha = 6.0
-fluo_scale = 201
+fluo_scale = 501
 init_scale = int((fluo_scale-1)/memory + 1)
 #Paths
 write_dir = os.path.join( 'output/')
@@ -66,26 +66,24 @@ print("Generating Training and Testing Data...")
 
 num_tests_total = int(num_training_steps  / evaluate_every) + 1
 
-training_batches = generate_traces_gillespie(memory = memory,
+training_batches = generate_traces_gill_r_mat(memory = memory,
                                                  length = trace_length,
                                                  input_size = fluo_scale,
                                                  batch_size=batch_size,
                                                  num_steps=num_training_steps,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 switch_high = switch_high,
                                                  noise_scale=noise_scale
                                                  )
 
 
-testing_batches = generate_traces_gillespie(memory = memory,
+testing_batches = generate_traces_gill_r_mat(memory = memory,
                                                  length = trace_length,
                                                  input_size = fluo_scale,
                                                  batch_size=batch_size,
                                                  num_steps=int(num_training_steps/evaluate_every) + 1,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 switch_high = switch_high,
                                                  noise_scale=noise_scale
                                                  )
 

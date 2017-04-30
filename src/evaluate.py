@@ -40,17 +40,17 @@ init_scale = int((fluo_scale-1)/memory + 1)
 soft_placement = True
 log_placement = False
 
-R = np.array([[-0.011, 0.01, 0,.024],    [.011,-.018,.013,0],     [0,0.007,-.013,.023],     [0,.001, 0,-0.047]]) * 10.2
-v = np.array([0,3,6,10])
+#R = np.array([[-0.011, 0.01, 0,.024],    [.011,-.018,.013,0],     [0,0.007,-.013,.023],     [0,.001, 0,-0.047]]) * 10.2
+#v = np.array([0,3,6,10])
 
 #R = np.array([[-0.01145, 0.0095, 0],    [.01145,-0.0180,.044],     [0,0.0085,-.044]]) * 10.2
 #v = np.array([0,4,8])
 
-#R = np.array([[-.012, .024],[.012,-.024]]) * 10.2
-#v = np.array([0,7])
+R = np.array([[-.012, .024],[.012,-.024]]) * 10.2
+v = np.array([0,7])
 
 #Paths
-test_name = "eve2_4state_ap41"
+test_name = "eve2_2state_ap41"
 read_dir = os.path.join( 'output/train')
 folder_name = "train_015_2017-04-29_06:15:51"
 write_dir = os.path.join( 'output/')

@@ -181,15 +181,15 @@ def generate_traces_gillespie(memory, length, input_size, batch_size, num_steps,
 def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps, r_mat=np.array([]), v=np.array([]), switch_low=4, switch_high = 12, noise_scale =.025, alpha=1.0):
     #define convolution kernel
     if alpha > 0:
-        alpha_vec = [(float(i + 1) / alpha + (float(i) / alpha)) / 2.0 * (i < alpha) * (i + 1 <= alpha)
-                     + (alpha - i) * (1 + (float(i) / alpha) / 2.0 + (i + 1 - alpha)) * (i < alpha) * (i + 1 > alpha)
+        alpha_vec = [(float(i + 1) / alpha + (float(i) / alpha)) / 2.0 * (i < alpha) * ((i + 1) <= alpha)
+                     + ((alpha - i)*(1 + float(i) / alpha) / 2.0 + i + 1 - alpha) * (i < alpha) * (i + 1 > alpha)
                      + 1 * (i >= alpha) for i in xrange(memory)]
 
         #alpha_vec = np.array(alpha_vec[::-1])
     else:
         alpha_vec = np.array([1.0]*memory)
     kernel = np.ones(memory)*alpha_vec
-
+    print(kernel)
     for step in xrange(num_steps):
         input_list = []
         label_list = []
@@ -208,7 +208,7 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
                 v_choices = v
 
             if not r_mat.any():
-                r_raw = np.random.random((v_size,v_size)) * 1.0 / (2.0*switch_low)
+                r_raw = np.random.random((v_size,v_size)) * 1.0 / ((v_size-1)*switch_low)
                 R = r_raw - np.identity(v_size)*r_raw - np.identity(v_size)*np.tile(np.sum(r_raw - r_raw*np.identity(v_size),axis=0),(v_size,1))
             else:
                 R = r_mat
@@ -277,16 +277,16 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
 if __name__ == "__main__":
 
     # memory
-    w = 20
+    w = 40
     # Fix trace length for now
-    T = 300
+    T = 500
     # Input magnitude
-    F = 201
+    F = 501
     # Number of traces per batch
     batch_size = 1
     R = np.array([[-.007,.007,.006],[.004,-.01,.008],[.003,.003,-.014]]) * 6.0
     v = np.array([0.0,4.0,8.0])
-    batches = generate_traces_gill_r_mat(w,T,F,batch_size,1,r_mat=np.array([]), v=np.array([]), noise_scale =.025, alpha=1.0)
+    batches = generate_traces_gill_r_mat(w,T,F,batch_size,1,r_mat=np.array([]), v=np.array([]), noise_scale =.025, alpha=11.7)
 
     for batch in batches:
         input_list, label_list, seq_lengths, label_ints, input_ints = batch
