@@ -36,8 +36,8 @@ switch_low = 2
 noise_scale = .05
 alpha = 1.0
 fluo_scale = 1001
-out_mem = 1
-v_size = 3
+out_mem = 5
+#v_size = 3
 init_scale = int((fluo_scale-1)/(memory/out_mem) + 1)
 #Paths
 write_dir = os.path.join( 'output/')
@@ -70,7 +70,7 @@ training_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=num_training_steps,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 v_num=v_size,
+                                                # v_num=v_size,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -82,7 +82,7 @@ testing_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=int(num_training_steps/evaluate_every) + 1,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 v_num=v_size,
+                                                # v_num=v_size,
                                                  noise_scale=noise_scale
                                                  )
 
