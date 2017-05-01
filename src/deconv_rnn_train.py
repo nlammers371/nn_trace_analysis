@@ -22,7 +22,7 @@ batch_size =  10
 num_training_steps = 25000
 record_every = 25
 evaluate_every = 200
-test_type = "train"
+test_type = "train_out_mem_8"
 deprecated = 0
 
 
@@ -34,9 +34,9 @@ memory = 40
 switch_low = 2
 #switch_high = 12
 noise_scale = .05
-alpha = 1.0
+alpha = 11.7
 fluo_scale = 1001
-out_mem = 1
+out_mem = 8
 v_size = 3
 init_scale = int((fluo_scale-1)/(memory/out_mem) + 1)
 #Paths
@@ -71,6 +71,7 @@ training_batches = generate_traces_gill_r_mat(memory = memory,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
                                                  v_num=v_size,
+                                                 out_mem=out_mem,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -83,6 +84,7 @@ testing_batches = generate_traces_gill_r_mat(memory = memory,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
                                                  v_num=v_size,
+                                                 out_mem=out_mem,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -227,6 +229,8 @@ with tf.Graph().as_default():
                 for i in xrange(len(full_labels[0])):
                     scores = class_scores[i,:]
                     answers =  full_labels[0][i]
+                    print(len(scores))
+                    print(len(answers))
                     row = [current_step]
                     for i in xrange(init_scale):
                         cell = scores[i]

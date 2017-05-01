@@ -221,6 +221,8 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
                 R = r_mat
 
             trajectory = np.zeros((length,label_size), dtype='int')
+            print(label_size)
+            print(promoter_range)
             promoter_states = []
             #Generate promoter trajectory
             T_float = 0.0
@@ -296,17 +298,17 @@ if __name__ == "__main__":
     # memory
     w = 20
     # Fix trace length for now
-    T = 500
+    T = 100
     # Input magnitude
-    F = 1001
+    F = 501
     # Number of traces per batch
     batch_size = 1
     R = np.array([[-.007,.007,.006],[.004,-.01,.008],[.003,.003,-.014]]) * 6.0
     v = np.array([0.0,4.0,8.0])
-    batches = generate_traces_gill_r_mat(w,T,F,batch_size,1,out_mem=2, v_num=3, r_mat=np.array([]), v=np.array([]), noise_scale =.025, alpha=1.0)
+    batches = generate_traces_gill_r_mat(w,T,F,batch_size,1,out_mem=4, v_num=5, r_mat=np.array([]), v=np.array([]), noise_scale =.025, alpha=1.0)
 
     for batch in batches:
         x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = batch
-
+        print(len(y_labels[0][0]))
         #plt.plot(np.array(int_lb_conv[0]))
 
