@@ -46,7 +46,7 @@ write_dir = os.path.join( 'output/')
 num_conv_layers = 2
 conv_compression_per_layer = 10
 n_col = fluo_scale/conv_compression_per_layer
-conv_filters = [[memory/2,n_col,1,16],[memory*2,n_col,8,64]]
+conv_filters = [[memory/2,n_col,1,8],[memory*2,n_col,8,32]]
 
 conv_kernels = [[1,n_col],[1,n_col]]
 
