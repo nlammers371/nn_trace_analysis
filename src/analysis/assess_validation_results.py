@@ -15,24 +15,41 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 import time
 
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+import matplotlib.cm as cmx
 
-datapath = "../output/train/train_015_2017-04-29_06:15:51/evaluate/eve2_3state_ap41.csv"
+import matplotlib.gridspec as gridspec # subplot
+
+
+datapath = "../output/train/train_015_2017-04-29_06:15:51/evaluate/"
+outpath = os.path.join(datapath,"plots")
+fname = "eve2_3state_ap41"
 TOOLS="hover,crosshair,pan,wheel_zoom,box_zoom,undo,redo,reset,tap,save,box_select,poly_select,lasso_select"
-
-pd_data = pd.read_csv(datapath)
-pd_data.columns = ["ID", "Fluo", "label", "prediction","blah"]
+outname = fname + "_plots"
+pd_data = pd.read_csv(os.path.join(datapath,fname + ".csv"))
+pd_data.columns = ["ID", "Fluo", "label", "prediction_max","prediction_avg"]
 
 plot_list = list(set(pd_data.ID.values))
 
-mypalette=Spectral11[0:2]
+mycolors=Spectral11[0:10]
+if not os.path.isdir(outpath):
+    os.makedirs(outpath)
 
-for i in xrange(10):
+for i in xrange(len(plot_list)):
     plot_data = pd_data[pd_data.ID==plot_list[i]]
-    print(pd.DataFrame.head(plot_data))
-    p_x = range(500)
-    p_y_list = ["label", "prediction"]
+    fig = plt.figure(figsize=(15,5))
+    ax = fig.add_subplot(111)
+    x_axis = range(len(plot_data.index))
+    ax.plot(x_axis,plot_data["label"],lw=2,color=mycolors[0])
+    ax.plot(x_axis, plot_data["prediction_max"],lw=2,linestyle='--', color=mycolors[2])
+    ax.plot(x_axis, plot_data["prediction_avg"],lw=3,linestyle='-.',color=mycolors[5])
 
-    p = figure(tools=TOOLS, title="Predicted Fluo vs. Actual", height = 600, width=1200)
-    p.multi_line(xs=[p_x]*2, ys=[plot_data[j].values for j in p_y_list],  line_color=mypalette)
+    plt.xlabel('Training Steps')
+    plt.ylabel('Accuracy')
+    plt.title('Model Accuracy Over Course of Training Period')
 
-    show(p)
+    fig.savefig(os.path.join(outpath,outname + "_" + str(i) + ".png"))
+    plt.close()
+
+    #plt.show()

@@ -57,8 +57,9 @@ class DECONV_RNN(object):
                     input = pooled
 
         with tf.name_scope("LSTM"):
-            rnn_input = tf.reshape(input,[batch_size, max_length, rnn_input_size])
-            rnn_input.set_shape([None, None, rnn_input_size])
+            input_shape = input.get_shape()
+            rnn_input = tf.reshape(input,[batch_size, max_length, input_shape[-1].value])
+            rnn_input.set_shape([None, None, input_shape[-1].value])
             #"Unfold" Network
             outputs, last_states = tf.nn.bidirectional_dynamic_rnn(
                 cell_fw=cell,
@@ -99,10 +100,17 @@ class DECONV_RNN(object):
         with tf.name_scope("performance"):
 
             self.prediction = tf.reshape(self.probs_flat, [-1, tf.cast(max_length,tf.int32), tf.cast(num_output_classes,tf.int32)])
-            self.accuracy = tf.reduce_mean(1.0 - tf.abs(tf.cast(tf.argmax(self.prediction,axis=2),tf.float32) - self.input_y) / tf.cast(num_output_classes-1, tf.float32))
+            if deprecated:
+                self.accuracy = tf.reduce_mean(1.0 - tf.abs(tf.cast(tf.argmax(self.prediction,dimension=2),tf.float32) - self.input_y) / tf.cast(num_output_classes-1, tf.float32))
+            else:
+                self.accuracy = tf.reduce_mean(1.0 - tf.abs(tf.cast(tf.argmax(self.prediction,axis=2),tf.float32) - self.input_y) / tf.cast(num_output_classes-1, tf.float32))
             #self.accuracy_cat = 1.0 - tf.reduce_mean(tf.equal(tf.cast(tf.argmax(self.prediction,axis=2),tf.float32),self.input_y))
 
-            probs_vec = tf.cast(tf.argmax(self.probs_flat,axis=1), tf.float32)
+            if deprecated:
+                probs_vec = tf.cast(tf.argmax(self.probs_flat,dimension=1), tf.float32)
+            else:
+                probs_vec = tf.cast(tf.argmax(self.probs_flat, axis=1), tf.float32)
+
             y_flat = tf.reshape(self.input_y, [-1])
 
             class_avg_pred = tf.reduce_mean(probs_vec)
@@ -113,5 +121,8 @@ class DECONV_RNN(object):
 
             denominator = tf.sqrt(tf.reduce_sum(tf.square(pred_diff))) * tf.sqrt(tf.reduce_sum(tf.square(true_diff) ))        # Accuracy per time step
 
-            self.correlation = tf.reduce_mean(tf.divide(tf.reduce_sum(pred_diff * true_diff), denominator))
+            if deprecated:
+                self.correlation = tf.reduce_mean(tf.div(tf.reduce_sum(pred_diff * true_diff), denominator))
+            else:
+                self.correlation = tf.reduce_mean(tf.divide(tf.reduce_sum(pred_diff * true_diff), denominator))
 
