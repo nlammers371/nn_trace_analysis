@@ -18,24 +18,24 @@ import math
 #DEFAULT Training Parameters
 #--------------------------------------------------------------------------------------------
 #Hyperparameters
-batch_size =  10
+batch_size =  1
 num_training_steps = 25000
 record_every = 25
 evaluate_every = 200
 test_type = "train"
-deprecated = 0
+deprecated = 1
 
 
 
 #Trace Parameters
-trace_length = 500
+trace_length = 50
 uniform_trace_lengths = 1
-memory = 40
+memory = 5
 switch_low = 2
 #switch_high = 12
 noise_scale = .0125
-alpha = 11.7
-fluo_scale = 1001
+alpha = 1.0
+fluo_scale = 200
 init_scale = int((fluo_scale-1)/memory + 1)
 #Paths
 write_dir = os.path.join( 'output/')
@@ -51,6 +51,7 @@ conv_kernels = [[1,n_col],[1,n_col]]
 rnn_input_size = float(fluo_scale)
 for k, kernel in enumerate(conv_kernels):
     rnn_input_size = int(math.ceil(float(rnn_input_size)/float(kernel[1]))*(conv_filters[k][3]/conv_filters[k][2]))
+
 rnn_input_size = int(8*rnn_input_size)
 print(rnn_input_size)
 num_rnn_layers = 2
@@ -260,12 +261,12 @@ with tf.Graph().as_default():
     abs_start = time.time()
     start = time.time()
     for batch in training_batches:
-        x_inputs, y_labels, seq_lengths, int_labels, _ = batch
-        train_step(x_inputs, int_labels, seq_lengths, y_labels)
+        x_inputs, y_labels, seq_lengths, _, _, conv_labels = batch
+        train_step(x_inputs, conv_labels, seq_lengths, y_labels)
 
         if current_step % evaluate_every == 0:
-            x_inputs, y_labels, seq_lengths, int_labels, int_inputs = next(testing_batches)
-            dev_step(x_inputs, int_labels, seq_lengths, y_labels, writer=dev_summary_writer)
+            x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = next(testing_batches)
+            dev_step(x_inputs, conv_labels, seq_lengths, y_labels, writer=dev_summary_writer)
 
             print("")
             path = saver.save(sess, checkpoint_prefix, global_step=current_step)
