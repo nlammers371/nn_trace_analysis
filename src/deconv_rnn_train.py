@@ -26,7 +26,6 @@ test_type = "train"
 deprecated = 0
 
 
-
 #Trace Parameters
 trace_length = 500
 uniform_trace_lengths = 1
@@ -262,6 +261,7 @@ with tf.Graph().as_default():
         train_step(x_inputs, conv_labels, seq_lengths, y_labels)
 
         if current_step % evaluate_every == 0:
+            print("Mem Test")
             x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = next(testing_batches)
             dev_step(x_inputs, conv_labels, seq_lengths, y_labels, writer=dev_summary_writer)
 
