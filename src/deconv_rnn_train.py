@@ -18,12 +18,13 @@ import math
 #DEFAULT Training Parameters
 #--------------------------------------------------------------------------------------------
 #Hyperparameters
-batch_size =  1
+batch_size =  10
 num_training_steps = 25000
 record_every = 25
 evaluate_every = 200
 test_type = "train"
 deprecated = 0
+
 
 
 #Trace Parameters
@@ -35,8 +36,8 @@ switch_low = 2
 noise_scale = .05
 alpha = 1.0
 fluo_scale = 1001
-out_mem = 5
-#v_size = 3
+out_mem = 1
+v_size = 3
 init_scale = int((fluo_scale-1)/(memory/out_mem) + 1)
 #Paths
 write_dir = os.path.join( 'output/')
@@ -69,7 +70,7 @@ training_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=num_training_steps,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                # v_num=v_size,
+                                                 v_num=v_size,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -81,7 +82,7 @@ testing_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=int(num_training_steps/evaluate_every) + 1,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                # v_num=v_size,
+                                                 v_num=v_size,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -261,7 +262,6 @@ with tf.Graph().as_default():
         train_step(x_inputs, conv_labels, seq_lengths, y_labels)
 
         if current_step % evaluate_every == 0:
-            print("Mem Test")
             x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = next(testing_batches)
             dev_step(x_inputs, conv_labels, seq_lengths, y_labels, writer=dev_summary_writer)
 

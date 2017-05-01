@@ -309,6 +309,4 @@ if __name__ == "__main__":
         input_list, label_list, seq_lengths, label_ints, input_ints, int_lb_conv = batch
 
         #plt.plot(np.array(int_lb_conv[0]))
-        plt.plot(np.array(label_ints[0]))
-        #plt.plot(np.array(input_ints[0]))
-        plt.show()
+
