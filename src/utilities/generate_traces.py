@@ -189,7 +189,7 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
     else:
         alpha_vec = np.array([1.0]*memory)
     kernel = np.ones(memory)*alpha_vec
-    print(kernel)
+
     for step in xrange(num_steps):
         input_list = []
         label_list = []
@@ -236,6 +236,7 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
             tr_array = np.array(transitions)
             promoter_states = promoter_states[:-1]
             promoter_grid = np.zeros(length)
+            trajectory[0,0] = 1
             for e in xrange(1,length):
                 #Find transitions that occurred within preceding time step
                 if e==1:

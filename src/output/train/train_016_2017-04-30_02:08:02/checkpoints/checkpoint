@@ -1,0 +1,6 @@
+model_checkpoint_path: "model-14400"
+all_model_checkpoint_paths: "model-13600"
+all_model_checkpoint_paths: "model-13800"
+all_model_checkpoint_paths: "model-14000"
+all_model_checkpoint_paths: "model-14200"
+all_model_checkpoint_paths: "model-14400"

@@ -21,7 +21,7 @@ import math
 batch_size =  10
 num_training_steps = 25000
 record_every = 25
-evaluate_every = 100
+evaluate_every = 200
 test_type = "train"
 deprecated = 0
 
@@ -33,9 +33,9 @@ uniform_trace_lengths = 1
 memory = 40
 switch_low = 2
 #switch_high = 12
-noise_scale = .025
-alpha = 6.0
-fluo_scale = 501
+noise_scale = .0125
+alpha = 11.7
+fluo_scale = 1001
 init_scale = int((fluo_scale-1)/memory + 1)
 #Paths
 write_dir = os.path.join( 'output/')
@@ -51,7 +51,7 @@ conv_kernels = [[1,n_col],[1,n_col]]
 rnn_input_size = float(fluo_scale)
 for k, kernel in enumerate(conv_kernels):
     rnn_input_size = int(math.ceil(float(rnn_input_size)/float(kernel[1]))*(conv_filters[k][3]/conv_filters[k][2]))
-rnn_input_size = int(2*rnn_input_size)
+rnn_input_size = int(8*rnn_input_size)
 print(rnn_input_size)
 num_rnn_layers = 2
 num_rnn_neurons = 200
