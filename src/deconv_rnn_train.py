@@ -229,8 +229,6 @@ with tf.Graph().as_default():
                 for i in xrange(len(full_labels[0])):
                     scores = class_scores[i,:]
                     answers =  full_labels[0][i]
-                    print(len(scores))
-                    print(len(answers))
                     row = [current_step]
                     for i in xrange(init_scale):
                         cell = scores[i]

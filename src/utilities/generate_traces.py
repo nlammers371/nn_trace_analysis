@@ -139,7 +139,6 @@ def generate_traces_gillespie(memory, length, input_size, batch_size, num_steps,
                 T_float += t
 
             tr_array = np.array(transitions)
-            print(tr_array)
             promoter_states = promoter_states[:-1]
             promoter_grid = np.zeros(length)
             for e in xrange(1,length):
