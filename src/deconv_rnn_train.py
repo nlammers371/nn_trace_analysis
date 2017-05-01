@@ -18,7 +18,7 @@ import math
 #DEFAULT Training Parameters
 #--------------------------------------------------------------------------------------------
 #Hyperparameters
-batch_size =  1
+batch_size =  10
 num_training_steps = 25000
 record_every = 25
 evaluate_every = 200
@@ -28,15 +28,16 @@ deprecated = 1
 
 
 #Trace Parameters
-trace_length = 50
+trace_length = 500
 uniform_trace_lengths = 1
-memory = 5
+memory = 40
 switch_low = 2
 #switch_high = 12
-noise_scale = .0125
+noise_scale = .05
 alpha = 1.0
-fluo_scale = 200
-init_scale = int((fluo_scale-1)/memory + 1)
+fluo_scale = 1001
+out_mem = 1
+init_scale = int((fluo_scale-1)/(memory/out_mem) + 1)
 #Paths
 write_dir = os.path.join( 'output/')
 
@@ -48,12 +49,6 @@ conv_filters = [[memory/2,n_col,1,8],[memory*2,n_col,8,32]]
 
 conv_kernels = [[1,n_col],[1,n_col]]
 
-rnn_input_size = float(fluo_scale)
-for k, kernel in enumerate(conv_kernels):
-    rnn_input_size = int(math.ceil(float(rnn_input_size)/float(kernel[1]))*(conv_filters[k][3]/conv_filters[k][2]))
-
-rnn_input_size = int(8*rnn_input_size)
-print(rnn_input_size)
 num_rnn_layers = 2
 num_rnn_neurons = 200
 dropout_keep_prob = .8
@@ -74,6 +69,7 @@ training_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=num_training_steps,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
+                                                 v_num=3,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -85,6 +81,7 @@ testing_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=int(num_training_steps/evaluate_every) + 1,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
+                                                 v_num=3,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -102,7 +99,6 @@ with tf.Graph().as_default():
             batch_size=batch_size,
             num_rnn_neurons = num_rnn_neurons,
             num_rnn_layers = num_rnn_layers,
-            rnn_input_size= rnn_input_size,
             num_input_classes = fluo_scale,
             num_output_classes= init_scale,
             conv_filter_sizes=conv_filters,

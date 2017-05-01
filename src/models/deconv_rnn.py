@@ -7,7 +7,7 @@ class DECONV_RNN(object):
     An RNN to deconvolve Fluorescent traces of transcriptional activity
     """
 
-    def __init__(self, max_length, batch_size, num_input_classes, num_output_classes, num_rnn_neurons, num_rnn_layers, conv_filter_sizes, rnn_input_size, pool_kernel_sizes, deprecated):
+    def __init__(self, max_length, batch_size, num_input_classes, num_output_classes, num_rnn_neurons, num_rnn_layers, conv_filter_sizes, pool_kernel_sizes, deprecated):
         # Define Placeholders
         with tf.name_scope("inputs"):
             self.input_x = tf.placeholder(tf.float32, [None, max_length, num_input_classes], name="input_x")

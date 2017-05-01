@@ -15,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="deconv_rnn_train.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="deconv_rnn_train.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/deconv_rnn_train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="35" column="17" lean-forward="false" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
+            <state relative-caret-position="405">
+              <caret line="30" column="18" lean-forward="false" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="generate_traces.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="generate_traces.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utilities/generate_traces.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="219" column="31" lean-forward="true" selection-start-line="219" selection-start-column="31" selection-end-line="219" selection-end-column="31" />
+            <state relative-caret-position="855">
+              <caret line="217" column="89" lean-forward="false" selection-start-line="217" selection-start-column="89" selection-end-line="217" selection-end-column="89" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#466#1679#0" expanded="false" />
@@ -57,8 +57,8 @@
       <file leaf-file-name="deconv_rnn.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/deconv_rnn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-657">
-              <caret line="15" column="81" lean-forward="false" selection-start-line="15" selection-start-column="81" selection-end-line="15" selection-end-column="81" />
+            <state relative-caret-position="135">
+              <caret line="9" column="138" lean-forward="false" selection-start-line="9" selection-start-column="138" selection-end-line="9" selection-end-column="138" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -79,10 +79,11 @@
       <file leaf-file-name="assess_validation_results.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analysis/assess_validation_results.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="85" lean-forward="false" selection-start-line="34" selection-start-column="85" selection-end-line="34" selection-end-column="85" />
+            <state relative-caret-position="705">
+              <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
               <folding>
                 <element signature="e#0#57#0" expanded="true" />
+                <marker date="1493614532234" expanded="true" signature="1767:1768" ph="..." />
               </folding>
             </state>
           </provider>
@@ -123,8 +124,8 @@
         <option value="$PROJECT_DIR$/../../proteus/proteus/rnn_src/model/aa_cnn_decode.py" />
         <option value="$PROJECT_DIR$/analysis/assess_validation_results.py" />
         <option value="$PROJECT_DIR$/evaluate.py" />
-        <option value="$PROJECT_DIR$/models/deconv_rnn.py" />
         <option value="$PROJECT_DIR$/utilities/generate_traces.py" />
+        <option value="$PROJECT_DIR$/models/deconv_rnn.py" />
         <option value="$PROJECT_DIR$/deconv_rnn_train.py" />
       </list>
     </option>
@@ -668,10 +669,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/analysis/assess_validation_results.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="85" lean-forward="false" selection-start-line="34" selection-start-column="85" selection-end-line="34" selection-end-column="85" />
+        <state relative-caret-position="705">
+          <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
           <folding>
             <element signature="e#0#57#0" expanded="true" />
+            <marker date="1493614532234" expanded="true" signature="1767:1768" ph="..." />
           </folding>
         </state>
       </provider>
@@ -684,10 +686,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utilities/generate_traces.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="217" column="89" lean-forward="false" selection-start-line="217" selection-start-column="89" selection-end-line="217" selection-end-column="89" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#466#1679#0" expanded="false" />
+            <element signature="e#1941#4036#0" expanded="false" />
+            <element signature="e#4185#7443#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/deconv_rnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-657">
-          <caret line="15" column="81" lean-forward="false" selection-start-line="15" selection-start-column="81" selection-end-line="15" selection-end-column="81" />
+        <state relative-caret-position="135">
+          <caret line="9" column="138" lean-forward="false" selection-start-line="9" selection-start-column="138" selection-end-line="9" selection-end-column="138" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -696,23 +711,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/deconv_rnn_train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="35" column="17" lean-forward="false" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
+        <state relative-caret-position="405">
+          <caret line="30" column="18" lean-forward="false" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/generate_traces.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="219" column="31" lean-forward="true" selection-start-line="219" selection-start-column="31" selection-end-line="219" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#466#1679#0" expanded="false" />
-            <element signature="e#1941#4036#0" expanded="false" />
-            <element signature="e#4185#7443#0" expanded="false" />
           </folding>
         </state>
       </provider>
