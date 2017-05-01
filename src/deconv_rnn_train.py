@@ -22,7 +22,7 @@ batch_size =  10
 num_training_steps = 25000
 record_every = 25
 evaluate_every = 200
-test_type = "train_out_mem_8"
+test_type = "train_full_noise"
 deprecated = 0
 
 
@@ -36,8 +36,8 @@ switch_low = 2
 noise_scale = .05
 alpha = 11.7
 fluo_scale = 1001
-out_mem = 5
-v_size = 3
+out_mem = 1
+#v_size = 3
 init_scale = int((fluo_scale-1)/(memory/out_mem) + 1)
 #Paths
 write_dir = os.path.join( 'output/')
@@ -46,7 +46,7 @@ write_dir = os.path.join( 'output/')
 num_conv_layers = 2
 conv_compression_per_layer = 10
 n_col = fluo_scale/conv_compression_per_layer
-conv_filters = [[memory/2,n_col,1,8],[memory*2,n_col,8,32]]
+conv_filters = [[memory/2,n_col,1,16],[memory*2,n_col,8,64]]
 
 conv_kernels = [[1,n_col],[1,n_col]]
 
@@ -70,7 +70,7 @@ training_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=num_training_steps,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 v_num=v_size,
+                                                 #v_num=v_size,
                                                  out_mem=out_mem,
                                                  noise_scale=noise_scale
                                                  )
@@ -83,7 +83,7 @@ testing_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=int(num_training_steps/evaluate_every) + 1,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 v_num=v_size,
+                                                 #v_num=v_size,
                                                  out_mem=out_mem,
                                                  noise_scale=noise_scale
                                                  )
