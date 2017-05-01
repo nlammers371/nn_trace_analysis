@@ -221,8 +221,6 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
                 R = r_mat
 
             trajectory = np.zeros((length,label_size), dtype='int')
-            print(label_size)
-            print(promoter_range)
             promoter_states = []
             #Generate promoter trajectory
             T_float = 0.0
