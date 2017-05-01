@@ -1,5 +1,5 @@
 import numpy as np
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 import math
 from itertools import chain
 #Simple generator function to generate traces for training
@@ -309,6 +309,4 @@ if __name__ == "__main__":
         x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = batch
 
         #plt.plot(np.array(int_lb_conv[0]))
-        plt.plot(np.array(label_ints[0]))
-        #plt.plot(np.array(input_ints[0]))
-        plt.show()
+
