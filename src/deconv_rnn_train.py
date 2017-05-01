@@ -18,7 +18,7 @@ import math
 #DEFAULT Training Parameters
 #--------------------------------------------------------------------------------------------
 #Hyperparameters
-batch_size =  10
+batch_size =  1
 num_training_steps = 25000
 record_every = 25
 evaluate_every = 200
@@ -37,6 +37,7 @@ noise_scale = .05
 alpha = 1.0
 fluo_scale = 1001
 out_mem = 1
+v_size = 3
 init_scale = int((fluo_scale-1)/(memory/out_mem) + 1)
 #Paths
 write_dir = os.path.join( 'output/')
@@ -69,7 +70,7 @@ training_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=num_training_steps,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 v_num=3,
+                                                 v_num=v_size,
                                                  noise_scale=noise_scale
                                                  )
 
@@ -81,7 +82,7 @@ testing_batches = generate_traces_gill_r_mat(memory = memory,
                                                  num_steps=int(num_training_steps/evaluate_every) + 1,
                                                  alpha=alpha,
                                                  switch_low=switch_low,
-                                                 v_num=3,
+                                                 v_num=v_size,
                                                  noise_scale=noise_scale
                                                  )
 
