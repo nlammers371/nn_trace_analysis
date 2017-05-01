@@ -36,7 +36,7 @@ switch_low = 2
 noise_scale = .05
 alpha = 11.7
 fluo_scale = 1001
-out_mem = 8
+out_mem = 5
 v_size = 3
 init_scale = int((fluo_scale-1)/(memory/out_mem) + 1)
 #Paths
