@@ -19,7 +19,7 @@ import math
 #--------------------------------------------------------------------------------------------
 #Hyperparameters
 batch_size =  10
-num_test_steps = 10
+num_test_steps = 1
 record_every = 1
 evaluate_every = 10
 test_type = "evaluate"
@@ -29,12 +29,12 @@ deprecated = 0
 #Trace Parameters
 trace_length = 500
 uniform_trace_lengths = 1
-memory = 20
+memory = 40
 switch_low = 3
 switch_high = 12
-noise_scale = .025
-alpha = 6.0
-fluo_scale = 201
+noise_scale = .05
+alpha = 11.7
+fluo_scale = 1001
 init_scale = int((fluo_scale-1)/memory + 1)
 
 soft_placement = True
@@ -43,16 +43,16 @@ log_placement = False
 #R = np.array([[-0.011, 0.01, 0,.024],    [.011,-.018,.013,0],     [0,0.007,-.013,.023],     [0,.001, 0,-0.047]]) * 10.2
 #v = np.array([0,3,6,10])
 
-#R = np.array([[-0.01145, 0.0095, 0],    [.01145,-0.0180,.044],     [0,0.0085,-.044]]) * 10.2
-#v = np.array([0,4,8])
+R = np.array([[-0.01145, 0.0095, 0],    [.01145,-0.0180,.044],     [0,0.0085,-.044]]) * 5.1
+v = np.array([0,12,24])
 
-R = np.array([[-.012, .024],[.012,-.024]]) * 10.2
-v = np.array([0,7])
+#R = np.array([[-.012, .024],[.012,-.024]]) * 10.2
+#v = np.array([0,7])
 
 #Paths
-test_name = "eve2_2state_ap41"
+test_name = "eve2_3state_ap41_full_noise"
 read_dir = os.path.join( 'output/train')
-folder_name = "train_015_2017-04-29_06:15:51"
+folder_name = "train_016_2017-04-30_02:08:02"
 write_dir = os.path.join( 'output/')
 
 checkpoint_full_path = os.path.join(read_dir,folder_name)
@@ -96,9 +96,9 @@ with graph.as_default():
         # Get the placeholders from the graph by name
         input_x = graph.get_operation_by_name("inputs/input_x").outputs[0]
 
-        seq_length_vec = graph.get_operation_by_name("inputs/dropout").outputs[0]
+        seq_length_vec = graph.get_operation_by_name("inputs/seq_lengths").outputs[0]
 
-        dropout_keep_prob = graph.get_operation_by_name("inputs/dropout_1").outputs[0]
+        dropout_keep_prob = graph.get_operation_by_name("inputs/dropout").outputs[0]
 
         #dropout_keep_prob_1 = graph.get_operation_by_name("inputs/dropout_2").outputs[0]
 
@@ -108,7 +108,7 @@ with graph.as_default():
 
         for k, batch in enumerate(eval_batches):
             print("Processing Batch " + str(k+1) + " of " + str(num_test_steps))
-            x_inputs, y_labels, seq_lengths, int_labels, int_inputs = batch
+            x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = batch
             id_list = range(k*batch_size,(k+1)*batch_size)
 
             batch_predictions = sess.run(probs_flat,{input_x: x_inputs, dropout_keep_prob: 1.0, seq_length_vec: seq_lengths})
@@ -123,7 +123,7 @@ with graph.as_default():
             bp_mean = np.sum(bp_array*class_array,axis=1)
 
             inputs_flat = np.reshape(int_inputs,(-1))
-            labels_flat = np.reshape(int_labels,(-1))
+            labels_flat = np.reshape(conv_labels,(-1))
 
             if not os.path.isdir(os.path.join(checkpoint_full_path,"evaluate")):
                 os.makedirs(os.path.join(checkpoint_full_path,"evaluate"))

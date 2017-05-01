@@ -276,7 +276,6 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
             noise_vec = np.random.randn(length)*noise_scale*float(input_size)
 
             F_noised = F_series + noise_vec
-            print(F_noised)
             full_input = np.zeros((length, input_size),dtype='float')
             for f in xrange(length):
                 full_input[f,max(0,min(input_size-1, int(F_noised[f])))] = 1
@@ -307,7 +306,7 @@ if __name__ == "__main__":
     batches = generate_traces_gill_r_mat(w,T,F,batch_size,1,out_mem=2, v_num=3, r_mat=np.array([]), v=np.array([]), noise_scale =.025, alpha=1.0)
 
     for batch in batches:
-        input_list, label_list, seq_lengths, label_ints, input_ints, int_lb_conv = batch
+        x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = batch
 
         #plt.plot(np.array(int_lb_conv[0]))
         plt.plot(np.array(label_ints[0]))
