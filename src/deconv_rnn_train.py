@@ -23,7 +23,7 @@ num_training_steps = 25000
 record_every = 25
 evaluate_every = 200
 test_type = "train"
-deprecated = 1
+deprecated = 0
 
 
 
