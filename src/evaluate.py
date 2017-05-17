@@ -18,12 +18,12 @@ import math
 #DEFAULT Training Parameters
 #--------------------------------------------------------------------------------------------
 #Hyperparameters
-batch_size =  1
-num_test_steps = 10
+batch_size =  10
+num_test_steps = 1
 record_every = 1
 evaluate_every = 10
 test_type = "evaluate"
-deprecated = 1
+deprecated = 0
 
 
 #Trace Parameters
@@ -32,7 +32,7 @@ uniform_trace_lengths = 1
 memory = 40
 switch_low = 3
 switch_high = 12
-noise_scale = .0125
+noise_scale = .05
 alpha = 11.7
 fluo_scale = 1001
 init_scale = int((fluo_scale-1)/memory + 1)
@@ -43,14 +43,14 @@ log_placement = False
 #R = np.array([[-0.011, 0.01, 0,.024],    [.011,-.018,.013,0],     [0,0.007,-.013,.023],     [0,.001, 0,-0.047]]) * 10.2
 #v = np.array([0,3,6,10])
 
-R = np.array([[-0.01145, 0.0095, 0],    [.01145,-0.0180,.044],     [0,0.0085,-.044]]) * 10.2
-v = np.array([0,4,8])
+R = np.array([[-0.01145, 0.0095, 0],    [.01145,-0.0180,.044],     [0,0.0085,-.044]]) * 5.1
+v = np.array([0,12,24])
 
-#R = np.array([[-.012, .024],[.012,-.024]]) * 5.1
+#R = np.array([[-.012, .024],[.012,-.024]]) * 10.2
 #v = np.array([0,7])
 
 #Paths
-test_name = "eve2_3state_ap41"
+test_name = "eve2_3state_ap41_full_noise"
 read_dir = os.path.join( 'output/train')
 folder_name = "train_016_2017-04-30_02:08:02"
 write_dir = os.path.join( 'output/')
@@ -96,9 +96,9 @@ with graph.as_default():
         # Get the placeholders from the graph by name
         input_x = graph.get_operation_by_name("inputs/input_x").outputs[0]
 
-        seq_length_vec = graph.get_operation_by_name("inputs/dropout").outputs[0]
+        seq_length_vec = graph.get_operation_by_name("inputs/seq_lengths").outputs[0]
 
-        dropout_keep_prob = graph.get_operation_by_name("inputs/dropout_1").outputs[0]
+        dropout_keep_prob = graph.get_operation_by_name("inputs/dropout").outputs[0]
 
         #dropout_keep_prob_1 = graph.get_operation_by_name("inputs/dropout_2").outputs[0]
 

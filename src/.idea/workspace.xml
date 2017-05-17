@@ -15,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="deconv_rnn_train.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="deconv_rnn_train.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/deconv_rnn_train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3960">
-              <caret line="264" column="12" lean-forward="false" selection-start-line="264" selection-start-column="12" selection-end-line="264" selection-end-column="71" />
+            <state relative-caret-position="720">
+              <caret line="48" column="57" lean-forward="false" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -30,8 +30,8 @@
       <file leaf-file-name="evaluate.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/evaluate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="46" column="21" lean-forward="true" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
+            <state relative-caret-position="870">
+              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -39,16 +39,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="generate_traces.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="generate_traces.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utilities/generate_traces.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-120">
-              <caret line="203" column="8" lean-forward="false" selection-start-line="203" selection-start-column="8" selection-end-line="203" selection-end-column="62" />
+            <state relative-caret-position="343">
+              <caret line="253" column="0" lean-forward="true" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#467#1680#0" expanded="false" />
                 <element signature="e#1942#4037#0" expanded="false" />
-                <element signature="e#4186#7444#0" expanded="false" />
+                <element signature="e#4186#7416#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -66,23 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="aa_rnn_alpha.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../proteus/rnn_src/model/aa_rnn_alpha.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="32" selection-end-column="67" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="assess_validation_results.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analysis/assess_validation_results.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
+            <state relative-caret-position="735">
+              <caret line="49" column="37" lean-forward="true" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
               <folding>
                 <element signature="e#0#57#0" expanded="true" />
               </folding>
@@ -113,6 +101,7 @@
       <find>seq_w</find>
       <find>init_scale</find>
       <find>print(</find>
+      <find>v_</find>
     </findStrings>
     <replaceStrings>
       <replace>else</replace>
@@ -125,17 +114,18 @@
       <list>
         <option value="$PROJECT_DIR$/../../proteus/proteus/rnn_src/model/aa_cnn_decode.py" />
         <option value="$PROJECT_DIR$/analysis/assess_validation_results.py" />
+        <option value="$PROJECT_DIR$/evaluate.py" />
         <option value="$PROJECT_DIR$/models/deconv_rnn.py" />
         <option value="$PROJECT_DIR$/utilities/generate_traces.py" />
         <option value="$PROJECT_DIR$/deconv_rnn_train.py" />
-        <option value="$PROJECT_DIR$/evaluate.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1919" />
-    <option name="width" value="2562" />
-    <option name="height" value="1601" />
+    <option name="x" value="2625" />
+    <option name="y" value="24" />
+    <option name="width" value="2495" />
+    <option name="height" value="1576" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -152,8 +142,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -264,10 +252,12 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../proteus/rnn_src/model/aa_rnn_alpha.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
@@ -423,16 +413,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1919" y="0" width="2562" height="1601" extended-state="6" />
+    <frame x="2625" y="24" width="2495" height="1576" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2495073" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24919094" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32905406" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32859078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32837838" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -450,15 +440,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/deconv_rnn_train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3960">
-          <caret line="264" column="12" lean-forward="true" selection-start-line="264" selection-start-column="12" selection-end-line="264" selection-end-column="71" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -467,8 +457,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="870">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -483,7 +473,7 @@
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -492,16 +482,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1410">
           <caret line="94" column="53" lean-forward="false" selection-start-line="94" selection-start-column="32" selection-end-line="94" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../proteus/rnn_src/model/aa_rnn_alpha.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="32" selection-end-column="67" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -546,7 +526,7 @@
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -599,7 +579,7 @@
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -642,7 +622,7 @@
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -676,7 +656,7 @@
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -710,7 +690,7 @@
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -744,7 +724,7 @@
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -768,32 +748,23 @@
     <entry file="file://$PROJECT_DIR$/../../proteus/proteus/rnn_src/evaluate_model_rnn.py" />
     <entry file="file://$PROJECT_DIR$/../../proteus/proteus/rnn_src/analysis/seq_level_visuals_prediction.py" />
     <entry file="file://$PROJECT_DIR$/../../proteus/proteus/rnn_src/analysis/routine_level_visuals.py" />
-    <entry file="file://$PROJECT_DIR$/../../proteus/rnn_src/model/aa_rnn_alpha.py">
+    <entry file="file://$PROJECT_DIR$/../../proteus/rnn_src/model/aa_rnn_alpha.py" />
+    <entry file="file://$PROJECT_DIR$/analysis/assess_validation_results.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="32" selection-end-column="67" />
+        <state relative-caret-position="735">
+          <caret line="49" column="37" lean-forward="true" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="46" column="21" lean-forward="true" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
+        <state relative-caret-position="870">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis/assess_validation_results.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -808,25 +779,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deconv_rnn_train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3960">
-          <caret line="264" column="12" lean-forward="false" selection-start-line="264" selection-start-column="12" selection-end-line="264" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utilities/generate_traces.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-120">
-          <caret line="203" column="8" lean-forward="false" selection-start-line="203" selection-start-column="8" selection-end-line="203" selection-end-column="62" />
+        <state relative-caret-position="343">
+          <caret line="253" column="0" lean-forward="true" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <element signature="e#467#1680#0" expanded="false" />
             <element signature="e#1942#4037#0" expanded="false" />
-            <element signature="e#4186#7444#0" expanded="false" />
+            <element signature="e#4186#7416#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deconv_rnn_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="48" column="57" lean-forward="false" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>

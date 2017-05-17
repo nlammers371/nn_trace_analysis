@@ -139,7 +139,6 @@ def generate_traces_gillespie(memory, length, input_size, batch_size, num_steps,
                 T_float += t
 
             tr_array = np.array(transitions)
-            print(tr_array)
             promoter_states = promoter_states[:-1]
             promoter_grid = np.zeros(length)
             for e in xrange(1,length):
@@ -296,17 +295,17 @@ if __name__ == "__main__":
     # memory
     w = 20
     # Fix trace length for now
-    T = 500
+    T = 100
     # Input magnitude
-    F = 1001
+    F = 501
     # Number of traces per batch
     batch_size = 1
     R = np.array([[-.007,.007,.006],[.004,-.01,.008],[.003,.003,-.014]]) * 6.0
     v = np.array([0.0,4.0,8.0])
-    batches = generate_traces_gill_r_mat(w,T,F,batch_size,1,out_mem=2, v_num=3, r_mat=np.array([]), v=np.array([]), noise_scale =.025, alpha=1.0)
+    batches = generate_traces_gill_r_mat(w,T,F,batch_size,1,out_mem=4, v_num=5, r_mat=np.array([]), v=np.array([]), noise_scale =.025, alpha=1.0)
 
     for batch in batches:
-        input_list, label_list, seq_lengths, label_ints, input_ints, int_lb_conv = batch
-
+        x_inputs, y_labels, seq_lengths, _, int_inputs, conv_labels = batch
+        print(len(y_labels[0][0]))
         #plt.plot(np.array(int_lb_conv[0]))
 
