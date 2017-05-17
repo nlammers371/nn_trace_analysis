@@ -11,7 +11,8 @@ class DECONV_RNN(object):
         # Define Placeholders
         with tf.name_scope("inputs"):
             self.input_x = tf.placeholder(tf.float32, [None, max_length, num_input_classes], name="input_x")
-            self.input_y = tf.placeholder(tf.float32, [None, max_length], name="input_y")
+            self.input_y = tf.placeholder(tf.float32, [None, max_length, num_input_classes], name="input_y")
+            self.basis_set = tf.placeholder(tf.float32, [None, max_length, max_length], name="basis")
             #self.full_labels = tf.placeholder(tf.float32, [None, max_length, num_output_classes], name="input_y_full")
             self.seq_lengths = tf.placeholder(tf.int32, None, name = "seq_lengths")
             self.dropout = tf.placeholder(tf.float32, None, name = "dropout")
@@ -58,8 +59,8 @@ class DECONV_RNN(object):
 
         with tf.name_scope("LSTM"):
             input_shape = input.get_shape()
-            rnn_input = tf.reshape(input,[batch_size, max_length, input_shape[-1].value])
-            rnn_input.set_shape([None, None, input_shape[-1].value])
+            rnn_input = tf.reshape(input,[batch_size, max_length, input_shape[-2].value*input_shape[-1].value])
+            rnn_input.set_shape([None, None, input_shape[-2].value*input_shape[-1].value])
             #"Unfold" Network
             outputs, last_states = tf.nn.bidirectional_dynamic_rnn(
                 cell_fw=cell,

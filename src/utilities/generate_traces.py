@@ -177,7 +177,7 @@ def generate_traces_gillespie(memory, length, input_size, batch_size, num_steps,
         seq_lengths = [length]*batch_size
         yield(input_list, label_list, seq_lengths, int_label_list, int_input_list)
 
-def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps, out_mem=1, v_num=None,r_mat=np.array([]), v=np.array([]), switch_low=4, switch_high = 12, noise_scale =.025, alpha=1.0):
+def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps, v_num=None,r_mat=np.array([]), v=np.array([]), switch_low=4, switch_high = 12, noise_scale =.025, alpha=1.0):
     #define convolution kernel
     if alpha > 0:
         alpha_vec = [(float(i + 1) / alpha + (float(i) / alpha)) / 2.0 * (i < alpha) * ((i + 1) <= alpha)
@@ -187,20 +187,23 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
         #alpha_vec = np.array(alpha_vec[::-1])
     else:
         alpha_vec = np.array([1.0]*memory)
-    kernel = np.ones(memory)*alpha_vec
 
-    out_kernel = np.ones(out_mem)
+    kernel = np.ones(memory)*alpha_vec
 
     for step in xrange(num_steps):
         input_list = []
         label_list = []
         int_label_list = []
-        int_label_list_cv = []
+        basis_sets = []
         int_input_list = []
 
         # Set scale of outputs
         promoter_range = (input_size - 1) / memory + 1
         label_size = (input_size - 1) / (memory / out_mem) + 1
+        basis_grid = np.zeros((length,length))
+        for i in xrange(0,length):
+            basis_grid[i,i:min(i+memory,length)] = kernel
+
         for b in xrange(batch_size):
             #Determine number of states for trace
             if not v.any():
@@ -259,11 +262,6 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
                 p_states = promoter_states[tr_prev:tr_post]
                 promoter_grid[e] = np.sum(tr_diffs*p_states)
 
-
-            #Convolve Promoter series to desired level
-            promoter_grid_convolved = np.floor(np.convolve(out_kernel,promoter_grid,mode='full'))
-            promoter_grid_convolved = promoter_grid_convolved[0:length]
-            promoter_grid_convolved = promoter_grid_convolved.astype('int')
             promoter_grid = promoter_grid.astype('int')
             for s in xrange(length):
                 trajectory[s, int(np.round(promoter_grid_convolved[s]))] = 1
@@ -283,10 +281,10 @@ def generate_traces_gill_r_mat(memory, length, input_size, batch_size, num_steps
             label_list.append(np.ndarray.tolist(trajectory))
             int_label_list.append(promoter_grid.tolist())
             int_input_list.append(F_noised.tolist())
-            int_label_list_cv.append(promoter_grid_convolved)
+            basis_sets.append(basis_grid.tolist)
 
         seq_lengths = [length]*batch_size
-        yield(input_list, label_list, seq_lengths, int_label_list, int_input_list, int_label_list_cv)
+        yield(input_list, label_list, seq_lengths, int_label_list, int_input_list,basis_grid)
 
 
 
